@@ -23,6 +23,7 @@ import java.util.UUID;
 @Api(tags = "通用接口")
 @Slf4j
 public class CommonController {
+
     @Autowired
     private AliOssUtil aliOssUtil;
 
@@ -39,18 +40,18 @@ public class CommonController {
         try {
             //原始文件名
             String originalFilename = file.getOriginalFilename();
-            //截取原始文件名的后缀
-
+            //截取原始文件名的后缀   dfdfdf.png
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-            //构造新的文件名称
-            String objectName =  UUID.randomUUID().toString()+extension;
+            //构造新文件名称
+            String objectName = UUID.randomUUID().toString() + extension;
+
             //文件的请求路径
-            String filePath =  aliOssUtil.upload(file.getBytes(),objectName);
+            String filePath = aliOssUtil.upload(file.getBytes(), objectName);
             return Result.success(filePath);
         } catch (IOException e) {
-            log.info("文件上传失败：{}",e);
+            log.error("文件上传失败：{}", e);
         }
+
         return Result.error(MessageConstant.UPLOAD_FAILED);
     }
-
 }
